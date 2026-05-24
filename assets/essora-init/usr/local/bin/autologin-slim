@@ -1,0 +1,4 @@
+#!/bin/bash
+#autor josejp2424
+GKSU="/usr/local/autologin/gksu"
+"$GKSU" /usr/local/autologin/autologin-slim.sh

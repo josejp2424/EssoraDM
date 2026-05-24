@@ -63,6 +63,8 @@ chmod 755 \
 if [ -d "$BASE_DIR/assets/essora-init" ]; then
 
     mkdir -p "$PKG_DIR/usr/local/bin"
+    mkdir -p "$PKG_DIR/usr/local/autologin"
+    mkdir -p "$PKG_DIR/usr/share/applications"
     mkdir -p "$PKG_DIR/usr/share/essora-init"
     mkdir -p "$PKG_DIR/etc/essora-init.d"
 
@@ -74,6 +76,22 @@ if [ -d "$BASE_DIR/assets/essora-init" ]; then
 
         chmod 755 "$PKG_DIR/usr/local/bin/"* \
         2>/dev/null || true
+    fi
+    if [ -d "$BASE_DIR/assets/essora-init/usr/local/autologin" ]; then
+
+        cp -a \
+        "$BASE_DIR/assets/essora-init/usr/local/autologin/." \
+        "$PKG_DIR/usr/local/autologin/"
+
+        chmod 755 "$PKG_DIR/usr/local/autologin/"* \
+        2>/dev/null || true
+    fi
+
+    if [ -d "$BASE_DIR/assets/essora-init/usr/share/applications" ]; then
+
+        cp -a \
+        "$BASE_DIR/assets/essora-init/usr/share/applications/." \
+        "$PKG_DIR/usr/share/applications/"
     fi
 
     if [ -d "$BASE_DIR/assets/essora-init/usr/share/essora-init" ]; then

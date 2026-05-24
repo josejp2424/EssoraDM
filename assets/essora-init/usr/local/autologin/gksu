@@ -1,0 +1,166 @@
+#!/bin/sh
+
+ICON="/usr/local/autologin/user.svg"
+
+case "$LANG" in
+    ar*)
+        TITLE="المصادقة"
+        TEXT="المصادقة مطلوبة للمستخدم: <b>$USER</b>"
+        PASS="كلمة المرور:"
+        WRONG="كلمة المرور غير صحيحة، حاول مرة أخرى"
+        OK="--button=مصادقة:0"
+        CANCEL="--button=إلغاء:1"
+        ;;
+    ca*)
+        TITLE="Autenticació"
+        TEXT="Cal autenticació per a l'usuari: <b>$USER</b>"
+        PASS="Contrasenya:"
+        WRONG="Contrasenya incorrecta, torneu-ho a provar"
+        OK="--button=Autentica:0"
+        CANCEL="--button=Cancel·la:1"
+        ;;
+    de*)
+        TITLE="Authentifizierung"
+        TEXT="Authentifizierung erforderlich für Benutzer: <b>$USER</b>"
+        PASS="Passwort:"
+        WRONG="Falsches Passwort, bitte erneut versuchen"
+        OK="--button=Authentifizieren:0"
+        CANCEL="--button=Abbrechen:1"
+        ;;
+    es*)
+        TITLE="Autenticación"
+        TEXT="Se requiere autenticación para el usuario: <b>$USER</b>"
+        PASS="Contraseña:"
+        WRONG="Contraseña incorrecta, inténtelo de nuevo"
+        OK="--button=Autenticar:0"
+        CANCEL="--button=Cancelar:1"
+        ;;
+    fr*)
+        TITLE="Authentification"
+        TEXT="Authentification requise pour l'utilisateur : <b>$USER</b>"
+        PASS="Mot de passe :"
+        WRONG="Mot de passe incorrect, réessayez"
+        OK="--button=Authentifier:0"
+        CANCEL="--button=Annuler:1"
+        ;;
+    it*)
+        TITLE="Autenticazione"
+        TEXT="Autenticazione richiesta per l'utente: <b>$USER</b>"
+        PASS="Password:"
+        WRONG="Password errata, riprova"
+        OK="--button=Autentica:0"
+        CANCEL="--button=Annulla:1"
+        ;;
+    pt*)
+        TITLE="Autenticação"
+        TEXT="Autenticação necessária para o usuário: <b>$USER</b>"
+        PASS="Senha:"
+        WRONG="Senha incorreta, tente novamente"
+        OK="--button=Autenticar:0"
+        CANCEL="--button=Cancelar:1"
+        ;;
+    hu*)
+        TITLE="Hitelesítés"
+        TEXT="Hitelesítés szükséges a felhasználó számára: <b>$USER</b>"
+        PASS="Jelszó:"
+        WRONG="Hibás jelszó, próbálja újra"
+        OK="--button=Hitelesítés:0"
+        CANCEL="--button=Mégse:1"
+        ;;
+    ja*)
+        TITLE="認証"
+        TEXT="ユーザー <b>$USER</b> の認証が必要です"
+        PASS="パスワード:"
+        WRONG="パスワードが違います。もう一度お試しください"
+        OK="--button=認証:0"
+        CANCEL="--button=キャンセル:1"
+        ;;
+    ru*)
+        TITLE="Аутентификация"
+        TEXT="Требуется аутентификация для пользователя: <b>$USER</b>"
+        PASS="Пароль:"
+        WRONG="Неверный пароль, попробуйте снова"
+        OK="--button=Аутентифицировать:0"
+        CANCEL="--button=Отмена:1"
+        ;;
+    zh*|zh_CN*|zh_TW*)
+        TITLE="身份验证"
+        TEXT="用户 <b>$USER</b> 需要身份验证"
+        PASS="密码:"
+        WRONG="密码错误，请重试"
+        OK="--button=验证:0"
+        CANCEL="--button=取消:1"
+        ;;
+    pl*)
+        TITLE="Uwierzytelnianie"
+        TEXT="Wymagana jest autentykacja dla użytkownika: <b>$USER</b>"
+        PASS="Hasło:"
+        WRONG="Błędne hasło, spróbuj ponownie"
+        OK="--button=Uwierzytelnij:0"
+        CANCEL="--button=Anuluj:1"
+        ;;
+    *)
+        TITLE="Authentication"
+        TEXT="Authentication needed for user: <b>$USER</b>"
+        PASS="Password:"
+        WRONG="Wrong password, retry"
+        OK="--button=Authenticate:0"
+        CANCEL="--button=Cancel:1"
+        ;;
+esac
+
+ASK_PASS() {
+    yad \
+        --entry \
+        --entry-label "$PASS" \
+        --hide-text \
+        --image="$ICON" \
+        --window-icon="$ICON" \
+        --width=380 \
+        --height=150 \
+        --image-on-top \
+        --text="$TEXT" \
+        --title="$TITLE" \
+        --center \
+        "$CANCEL" \
+        "$OK"
+}
+
+PASSWD="$(ASK_PASS)"
+RET="$?"
+
+if [ "$RET" != "0" ]; then
+    exit 1
+fi
+
+if [ -z "$PASSWD" ]; then
+    exit 1
+fi
+
+echo "$PASSWD" | sudo -S "$@"
+STATUS="$?"
+
+if [ "$STATUS" != "0" ]; then
+    PASSWD="$(yad \
+        --entry \
+        --entry-label "$PASS" \
+        --hide-text \
+        --image="$ICON" \
+        --window-icon="$ICON" \
+        --width=380 \
+        --height=150 \
+        --image-on-top \
+        --text="$WRONG" \
+        --title="$TITLE" \
+        --center \
+        "$CANCEL" \
+        "$OK")"
+
+    RET="$?"
+
+    if [ "$RET" != "0" ] || [ -z "$PASSWD" ]; then
+        exit 1
+    fi
+
+    echo "$PASSWD" | sudo -S "$@"
+fi

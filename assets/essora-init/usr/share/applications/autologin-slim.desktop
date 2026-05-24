@@ -1,0 +1,26 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Autologin EssoraDM
+Name[ca]=Inici automàtic EssoraDM
+Name[es]=Autologin EssoraDM
+Name[fr]=Connexion automatique EssoraDM
+Name[it]=Accesso automatico EssoraDM
+Name[ru]=Автовход EssoraDM
+Name[ja]=EssoraDM 自動ログイン
+Name[pt]=Login automático EssoraDM
+Name[zh_CN]=EssoraDM 自动登录
+Comment=Configure automatic login for EssoraDM
+Comment[ca]=Configura l'inici automàtic per a EssoraDM
+Comment[es]=Configura el inicio de sesión automático para EssoraDM
+Comment[fr]=Configure la connexion automatique pour EssoraDM
+Comment[it]=Configura l'accesso automatico per EssoraDM
+Comment[ru]=Настройка автоматического входа для EssoraDM
+Comment[ja]=EssoraDM の自動ログインを設定します
+Comment[pt]=Configura o login automático para o EssoraDM
+Comment[zh_CN]=配置 EssoraDM 自动登录
+Exec=/usr/local/bin/autologin-slim
+Icon=/usr/local/autologin/user.svg
+Terminal=false
+Categories=System;Settings;Utility;Favorites;
+StartupNotify=false
