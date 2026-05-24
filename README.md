@@ -1,8 +1,20 @@
 # EssoraDM
 
-EssoraDM is a lightweight display manager for Essora Linux, originally based on Slim and expanded with new features and deeper integration for modern Essora systems.
 
-EssoraDM goes beyond a simple Slim fork by adding native Essora functionality, custom startup behavior, optional boot splash integration, and a cleaner user experience designed for lightweight environments.
+[![License: GPL-2.0](https://img.shields.io/badge/License-GPL%202.0-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0--2-green.svg)](https://github.com/josejp2424/EssoraDM/releases)
+[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)]()
+[![Built with](https://img.shields.io/badge/built%20with-C%2B%2B%20%2B%20X11-yellow.svg)]()
+[![Init: Essora-init](https://img.shields.io/badge/init-Essora--init%20integration-7D9B37.svg)]()
+[![Based on](https://img.shields.io/badge/based%20on-Slim%20DM-orange.svg)]()
+
+![EssoraDM](assets/essoradm.png)
+
+**Version:** 1.0-2
+
+EssoraDM is a lightweight display manager for Essora Linux, originally based on Slim and expanded with new features, Essora branding, custom startup hooks, and deeper integration with modern Essora systems.
+
+EssoraDM is not only a renamed Slim fork. It adds Essora-specific functionality such as optional Essora-init splash integration, automatic user configuration, custom hooks, theme integration, and a cleaner lightweight login experience designed for Essora environments.
 
 ---
 
@@ -19,26 +31,26 @@ EssoraDM goes beyond a simple Slim fork by adding native Essora functionality, c
 * PAM authentication support
 * Low resource usage
 * Designed for lightweight desktop environments
-* OpenRC compatible environments
+* Compatible with Essora-init and OpenRC-based systems
 * Modernized build and packaging scripts
 
 ---
 
 ## EssoraDM Hooks
 
-EssoraDM adds startup hooks for system customization:
+EssoraDM provides startup hooks for customization:
 
 ```text
 /etc/essoradm/pre-start
 /etc/essoradm/pre-login
 ```
 
-Examples:
+These hooks can be used to:
 
-* Show Essora boot splash
+* Show the Essora boot splash
 * Start custom services
 * Configure session variables
-* Execute scripts before login
+* Run scripts before the login screen appears
 
 ---
 
@@ -83,17 +95,37 @@ libpam0g-dev libcrypt-dev
 
 ## Building
 
-Compile:
+Compile EssoraDM:
 
 ```bash
 ./build-essoradm.sh
 ```
 
-Create package:
+Create the Debian package:
 
 ```bash
-cd essoradm_VERSION_ARCH
+cd essoradm_1.0-2_amd64
 ./create-package.sh
+```
+
+---
+
+## Installation
+
+Install the generated package:
+
+```bash
+sudo dpkg -i essoradm_1.0-2_amd64.deb
+```
+
+After installation, EssoraDM configures:
+
+```text
+/etc/essoradm.conf
+/etc/essoradm/pre-start
+/etc/essoradm/pre-login
+/etc/essora-init.d/essoradm
+/etc/X11/default-display-manager
 ```
 
 ---
@@ -102,12 +134,16 @@ cd essoradm_VERSION_ARCH
 
 EssoraDM is derived from Slim Display Manager.
 
-Original Slim authors and contributors retain copyright
-for upstream code.
+Original Slim authors and contributors retain copyright for upstream code.
 
 EssoraDM modifications and integration:
 
+```text
 Copyright (C) 2026 josejp2424
+```
 
-License: GNU General Public License v2.0
+License:
 
+```text
+GNU General Public License v2.0
+```
