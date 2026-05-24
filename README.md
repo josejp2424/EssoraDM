@@ -1,6 +1,5 @@
 # EssoraDM
 
-
 [![License: GPL-2.0](https://img.shields.io/badge/License-GPL%202.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0--2-green.svg)](https://github.com/josejp2424/EssoraDM/releases)
 [![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)]()
@@ -12,27 +11,40 @@
 
 **Version:** 1.0-2
 
-EssoraDM is a lightweight display manager for Essora Linux, originally based on Slim and expanded with new features, Essora branding, custom startup hooks, and deeper integration with modern Essora systems.
+EssoraDM is a lightweight display manager for Essora Linux, originally based on Slim and expanded with Essora branding, custom startup hooks, autologin tools, optional boot splash support, and deeper Essora-init integration.
 
-EssoraDM is not only a renamed Slim fork. It adds Essora-specific functionality such as optional Essora-init splash integration, automatic user configuration, custom hooks, theme integration, and a cleaner lightweight login experience designed for Essora environments.
+EssoraDM is not only a renamed Slim fork. It adds Essora-specific functionality such as automatic user configuration, Essora-init service integration, boot splash support, custom hooks, theme integration, and a clean lightweight login experience designed for Essora environments.
+
+---
+
+## Screenshots
+
+### EssoraDM Login Screen
+
+![EssoraDM Login](assets/essoradm.png)
+
+### Autologin Configuration Tool
+
+![EssoraDM Autologin](assets/autologin.png)
 
 ---
 
 ## Features
 
-* Lightweight and fast display manager
-* Essora branding and theme integration
-* Native Essora-init integration
-* Optional boot splash support
-* Customizable startup hooks
-* Automatic user configuration
-* Autologin support
-* Session selection support
-* PAM authentication support
-* Low resource usage
-* Designed for lightweight desktop environments
-* Compatible with Essora-init and OpenRC-based systems
-* Modernized build and packaging scripts
+- Lightweight and fast display manager
+- Essora branding and theme integration
+- Native Essora-init integration
+- Optional boot splash support
+- EssoraDM autologin configuration tool
+- Customizable startup hooks
+- Automatic user configuration
+- Autologin support
+- Session selection support
+- PAM authentication support
+- Low resource usage
+- Designed for lightweight desktop environments
+- Compatible with Essora-init and OpenRC-based systems
+- Modernized build and packaging scripts
 
 ---
 
@@ -47,10 +59,10 @@ EssoraDM provides startup hooks for customization:
 
 These hooks can be used to:
 
-* Show the Essora boot splash
-* Start custom services
-* Configure session variables
-* Run scripts before the login screen appears
+- Show the Essora boot splash
+- Start custom services
+- Configure session variables
+- Run scripts before the login screen appears
 
 ---
 
@@ -75,6 +87,32 @@ Kernel
 → EssoraDM
 → Login
 → Desktop
+```
+
+---
+
+## Autologin Tool
+
+EssoraDM includes a graphical autologin configuration tool for enabling or disabling automatic login.
+
+Installed components:
+
+```text
+/usr/local/bin/autologin-essoradm.sh
+/usr/local/autologin/user.svg
+/usr/share/applications/autologin-essoradm.desktop
+```
+
+The tool modifies:
+
+```text
+/etc/essoradm.conf
+```
+
+When autologin is disabled, it sets:
+
+```text
+auto_login          no
 ```
 
 ---
