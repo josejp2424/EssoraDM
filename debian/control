@@ -1,0 +1,14 @@
+Package: essoradm
+Maintainer: josejp2424 <puppylinuxjosejp2424@gmail.com>
+Architecture: amd64
+Version: 1.0-2
+Installed-Size: 2702
+Depends: libc6, libgcc-s1, libstdc++6, libx11-6, libxft2, libxrender1, libxrandr2, libxmu6, libjpeg62-turbo, libpng16-16, zlib1g, libcrypt1, libpam0g
+Provides: x-display-manager
+Section:  system
+Priority: optional
+Homepage: https://www.essora.org/
+Description: Essora display manager based on Slim
+ EssoraDM is a lightweight display manager for Essora.
+ It is derived from Slim under GPL-2.0 and adds Essora naming,
+ paths and boot splash hook integration.

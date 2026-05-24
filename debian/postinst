@@ -1,0 +1,91 @@
+#!/bin/sh
+set -e
+
+echo "[EssoraDM] Configurando EssoraDM..."
+
+mkdir -p /etc/essoradm
+mkdir -p /etc/X11
+mkdir -p /etc/essora-init.d/boot.d
+mkdir -p /usr/local/bin
+mkdir -p /usr/share/essora-init/splash
+
+# Display manager por defecto
+if [ -x /usr/bin/essoradm ]; then
+    echo "/usr/bin/essoradm" > /etc/X11/default-display-manager
+fi
+
+# Hooks de EssoraDM
+cat > /etc/essoradm/pre-start <<'EOF'
+#!/bin/sh
+# EssoraDM pre-start hook: optional framebuffer splash before greeter.
+
+SPLASH_TIME="${ESSORADM_SPLASH_TIME:-3}"
+
+if [ -x /usr/local/bin/essora-splash ]; then
+    /usr/local/bin/essora-splash start
+    sleep "$SPLASH_TIME"
+    /usr/local/bin/essora-splash stop
+fi
+
+exit 0
+EOF
+chmod 755 /etc/essoradm/pre-start
+
+cat > /etc/essoradm/pre-login <<'EOF'
+#!/bin/sh
+exit 0
+EOF
+chmod 755 /etc/essoradm/pre-login
+
+# Permisos de los scripts instalados en /usr/local/bin
+for f in /usr/local/bin/essora-splash /usr/local/bin/essora-desktop-start /usr/local/bin/essora-slim-once; do
+    if [ -f "$f" ]; then
+        chmod 755 "$f" || true
+        chown root:root "$f" 2>/dev/null || true
+    fi
+done
+
+# Activar servicio splash si existe.
+if [ -f /etc/essora-init.d/essora-splash ]; then
+    ln -sf ../essora-splash /etc/essora-init.d/boot.d/essora-splash
+fi
+
+# Ajustar default_user al usuario real del sistema.
+# Si el usuario real es essora, no toca nada.
+REAL_USER=""
+
+if [ -n "$SUDO_USER" ] && [ "$SUDO_USER" != "root" ]; then
+    REAL_USER="$SUDO_USER"
+else
+    REAL_USER="$(getent passwd | awk -F: '$3 >= 1000 && $3 < 60000 && $1 != "nobody" && $1 != "nfsnobody" {print $1; exit}')"
+fi
+
+if [ -n "$REAL_USER" ] && [ "$REAL_USER" != "essora" ] && [ -f /etc/essoradm.conf ]; then
+    if grep -q '^[[:space:]]*default_user[[:space:]]' /etc/essoradm.conf; then
+        sed -i "s|^[[:space:]]*default_user[[:space:]].*|default_user        $REAL_USER|" /etc/essoradm.conf
+    else
+        echo "default_user        $REAL_USER" >> /etc/essoradm.conf
+    fi
+fi
+
+# Quitar Slim del arranque de essora-init si estaba activo.
+rm -f /etc/essora-init.d/boot.d/slim
+
+# Evitar que desktop-start viejo tome el control si existía de pruebas anteriores.
+rm -f /etc/essora-init.d/boot.d/desktop-start
+
+# Servicio EssoraDM para essora-init.
+cat > /etc/essora-init.d/essoradm <<'EOF'
+type = bgprocess
+command = /usr/bin/essoradm -d
+pid-file = /run/essoradm.pid
+depends-on = dbus
+depends-on = x11-common
+restart = false
+smooth-recovery = true
+EOF
+
+ln -sf ../essoradm /etc/essora-init.d/boot.d/essoradm
+
+echo "[EssoraDM] Listo."
+exit 0

@@ -1,0 +1,8 @@
+type = bgprocess
+command = /usr/local/bin/essora-desktop-start
+pid-file = /run/slim.pid
+depends-on = dbus
+depends-on = x11-common
+depends-on = essora-splash
+restart = false
+smooth-recovery = true

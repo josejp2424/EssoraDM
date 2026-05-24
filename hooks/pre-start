@@ -1,0 +1,19 @@
+#!/bin/sh
+# EssoraDM pre-start hook.
+# Shows the optional Essora framebuffer splash before the greeter starts.
+#
+# The splash helper is installed by the Debian postinst when available:
+#   /usr/local/bin/essora-splash
+#
+# Override duration with:
+#   ESSORADM_SPLASH_TIME=3
+
+SPLASH_TIME="${ESSORADM_SPLASH_TIME:-3}"
+
+if [ -x /usr/local/bin/essora-splash ]; then
+    /usr/local/bin/essora-splash start
+    sleep "$SPLASH_TIME"
+    /usr/local/bin/essora-splash stop
+fi
+
+exit 0

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+sleep 5
+
+if [ -x /usr/local/bin/essora-splash ]; then
+    /usr/local/bin/essora-splash stop
+fi
+
+exec /usr/local/bin/essora-slim-once

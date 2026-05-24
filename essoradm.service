@@ -1,0 +1,9 @@
+[Unit]
+Description=EssoraDM Simple Login Manager
+After=systemd-user-sessions.service
+
+[Service]
+ExecStart=/usr/bin/essoradm -nodaemon
+
+[Install]
+Alias=display-manager.service

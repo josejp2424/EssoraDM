@@ -1,0 +1,29 @@
+#!/bin/sh
+
+CONF="/etc/slim.conf"
+FLAG="/run/essora-slim-autologin-used"
+TMP="/run/slim.conf.noautologin"
+
+mkdir -p /run
+
+# Cerrar splash antes de iniciar Slim
+if [ -x /usr/local/bin/essora-splash ]; then
+    /usr/local/bin/essora-splash stop
+fi
+
+# Primer arranque: autologin
+if [ ! -f "$FLAG" ]; then
+    touch "$FLAG"
+    exec /usr/bin/slim -d
+fi
+
+# Después del logout: pedir usuario/clave
+if [ -f "$CONF" ]; then
+    sed \
+      -e 's/^[[:space:]]*auto_login[[:space:]].*/auto_login no/' \
+      "$CONF" > "$TMP"
+
+    exec /usr/bin/slim -d -c "$TMP"
+fi
+
+exec /usr/bin/slim -d

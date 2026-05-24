@@ -1,0 +1,53 @@
+#!/bin/sh
+
+IMG="/usr/share/essora-init/splash/essora-boot.png"
+
+wait_fb() {
+    i=0
+
+    while [ $i -lt 50 ]; do
+        [ -e /dev/fb0 ] && return 0
+        sleep 0.1
+        i=$((i + 1))
+    done
+
+    return 1
+}
+
+case "$1" in
+    start)
+        [ -f "$IMG" ] || exit 0
+
+        wait_fb || exit 0
+
+        clear
+
+        # Esperar extra para que tty/video estén listos
+        sleep 1
+
+        fbi \
+            -T 1 \
+            -d /dev/fb0 \
+            -noverbose \
+            -a \
+            "$IMG" >/dev/null 2>&1 &
+
+        echo $! > /run/essora-splash.pid
+        ;;
+
+    stop)
+        if [ -f /run/essora-splash.pid ]; then
+            kill "$(cat /run/essora-splash.pid)" 2>/dev/null
+            rm -f /run/essora-splash.pid
+        fi
+
+        clear
+        ;;
+
+    *)
+        echo "Uso: essora-splash {start|stop}"
+        exit 1
+        ;;
+esac
+
+exit 0

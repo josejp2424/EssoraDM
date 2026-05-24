@@ -1,0 +1,4 @@
+#!/bin/sh
+# EssoraDM pre-login hook.
+# Reserved for future Essora integrations.
+exit 0

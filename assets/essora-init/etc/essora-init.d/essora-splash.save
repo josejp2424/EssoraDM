@@ -1,0 +1,5 @@
+xtype = scripted
+command = /usr/local/bin/essora-splash start
+stop-command = /usr/local/bin/essora-splash stop
+depends-on = mount-kernel
+restart = false

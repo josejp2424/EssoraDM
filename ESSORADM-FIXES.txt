@@ -1,0 +1,13 @@
+EssoraDM 1.0 source fixes
+
+- Fixed GCC 14 build error in panel.cpp:
+  if (WinGC < 0) -> if (WinGC == NULL)
+
+Reason:
+  GC is an X11 pointer type, not an integer. Newer GCC rejects ordered
+  pointer/integer comparison.
+
+- Fixed linker order in CMakeLists.txt:
+  libessoradm is now linked before Xft/Xrandr/PAM/etc providers.
+- Added PAM_LIBRARY, ZLIB_LIBRARY and thread libs to final target link list.
+- Updated cmake_minimum_required to 3.10...3.31 to silence newer CMake warning.

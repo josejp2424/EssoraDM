@@ -1,0 +1,18 @@
+EssoraDM 1.0 integration - fixed layout
+
+This source installs the Essora splash files directly in the final paths:
+
+  /usr/local/bin/essora-splash
+  /usr/local/bin/essora-desktop-start
+  /usr/local/bin/essora-slim-once
+  /usr/share/essora-init/splash/essora-boot.png
+  /etc/essora-init.d/essora-splash
+  /etc/essora-init.d/desktop-start
+
+The package no longer installs the splash under:
+  /usr/share/essoradm/assets
+
+EssoraDM package also installs:
+  /etc/essoradm/pre-start
+  /etc/essoradm/pre-login
+  /etc/essora-init.d/essoradm

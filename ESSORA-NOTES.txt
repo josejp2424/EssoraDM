@@ -1,0 +1,11 @@
+EssoraDM changes
+
+- Project and binary renamed to essoradm.
+- Config renamed to /etc/essoradm.conf.
+- Data dir renamed to /usr/share/essoradm.
+- Theme file renamed to essoradm.theme.
+- PAM service renamed to essoradm.
+- Lock/log/auth paths renamed to essoradm.
+- Adds /etc/essoradm/pre-start hook.
+- pre-start hook starts /usr/local/bin/essora-splash, waits, and stops it before X/greeter.
+- Original Slim GPL-2.0 license and credits are kept under /usr/share/doc/essoradm/ when packaged.
